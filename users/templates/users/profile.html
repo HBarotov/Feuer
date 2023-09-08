@@ -1,0 +1,43 @@
+{% extends 'blog/base.html' %}
+{% load humanize %}
+{% block title %}Profile | {{ user.username }}{% endblock title %}
+
+{% block content %}
+    <div class="content-section">
+        <div class="media">
+            <div class="media-body">
+                <div class="profile-title">
+                    <img class="rounded-circle account-img" src="{{ user.profile.image.url }}" alt="Profile {{ user.first_name }}">
+                    <div class="mb-3">
+                        <h2 class="account-heading">{{ user.username }}</h2>
+                        {% if user == request.user %}
+                            <span class="text-secondary"><i class="fa-solid fa-envelope"></i> {{ user.email }} &middot;</span>
+                        {% endif %}
+                        <span class="text-secondary"><i class="fa-regular fa-face-smile"></i> {{ user.first_name }}</span>
+                    </div>
+                </div>
+                
+                {% if user.profile.location %}
+                    <p class="mb-1"><i class="fa-solid fa-location-dot"></i> {{ user.profile.location }}</p>
+                    <p>Bio: {{ user.profile.bio }}</p>
+                {% else %}
+                <p class="mb-1"><i class="fa-solid fa-location-dot"></i>Unknown</p>
+                <p>Bio: Unknown</p>
+                {% endif %}
+                <p>
+                    <small>Last Login: {{ user.last_login|naturaltime }}</small><br>
+                    <small>Date Joined: {{ user.date_joined|date:'H:i, d/m/Y' }}</small>
+                </p>
+            </div>
+        </div>
+        <!-- FORM HERE -->
+        {% if user == request.user %}
+                <div class="my-2 mb-3">
+                    <a href="{% url 'users:profile_update' user.id %}" class="btn btn-secondary btn-sm mt-1 mb-1">Update Profile</a>
+                    <a href="{% url 'password_change' %}" class="btn btn-outline-info btn-sm mt-1 mb-1">Change Password</a>
+                </div>
+        {% endif %}
+
+        <h5 class="border-top mb-0"><a href="{% url 'blog:blog_home' %}">&laquo; Back</a></h5>
+    </div>
+{% endblock content %}

@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Feuer | Login{% endblock title %}
+
+{% block content %}
+    <div class="content-section">
+        <form action="." method="post">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">
+                    Sign In
+                </legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button type="submit" class="btn btn-outline-info">Sign in</button>
+                <small class="text-muted ml-2"><a href="{% url 'password_reset' %}" class="ml-2">Forgot Password?</a></small>
+            </div>
+            <div class="border-top pt-3">
+                <small class="text-muted">
+                    Need an Account?<a href="{% url 'users:register' %}" class="ml-2">Sign Up Now</a>
+                </small>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
